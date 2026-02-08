@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>6Devlox • Calorie Tracker</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#7c3aed">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Splash -->
+<div id="splash" aria-hidden="true">
+  <div class="splash-inner">
+    <div class="splash-logo">6</div>
+    <div class="splash-text">6Devlox</div>
+    <div class="splash-sub">Calorie Tracker</div>
+  </div>
+</div>
+
+<!-- Animated Neon Background -->
+<div class="neon-bg" aria-hidden="true">
+  <span class="orb purple"></span>
+  <span class="orb cyan"></span>
+  <span class="orb purple small"></span>
+</div>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand">
+      <div class="logo">6</div>
+      <div class="brand-text">
+        <h1>6Devlox</h1>
+        <p id="subtitle">Daily</p>
+      </div>
+    </div>
+
+    <button id="themeBtn" class="icon-btn" type="button" aria-label="Toggle theme">🌙</button>
+  </header>
+
+  <!-- NAV -->
+  <nav class="tabs" aria-label="Views">
+    <button id="dailyTab" class="tab active" type="button">Daily</button>
+    <button id="weeklyTab" class="tab" type="button">Weekly</button>
+    <button id="settingsTab" class="tab" type="button">Settings</button>
+  </nav>
+
+  <!-- DAILY -->
+  <section id="dailyView" class="card">
+    <label class="label" for="datePicker">Date</label>
+    <input class="input" type="date" id="datePicker" />
+
+    <div class="row row-2">
+      <div>
+        <label class="label" for="goalInput">Daily goal</label>
+        <input class="input" id="goalInput" type="number" placeholder="2000" />
+      </div>
+      <button id="setGoalBtn" class="btn accent" type="button">Set</button>
+    </div>
+
+    <div class="quick-add">
+      <div class="section-title">⚡ Quick Add</div>
+      <div class="quick-grid">
+        <button class="chip" type="button" data-name="Coffee" data-cal="80">☕ 80</button>
+        <button class="chip" type="button" data-name="Breakfast" data-cal="350">🥣 350</button>
+        <button class="chip" type="button" data-name="Lunch" data-cal="650">🍔 650</button>
+        <button class="chip" type="button" data-name="Snack" data-cal="250">🍕 250</button>
+        <button class="chip" type="button" data-name="Dinner" data-cal="750">🍽️ 750</button>
+      </div>
+    </div>
+
+    <div class="row row-2">
+      <div>
+        <label class="label" for="foodName">Food</label>
+        <input class="input" id="foodName" placeholder="Food name" />
+      </div>
+      <div>
+        <label class="label" for="foodCalories">Calories</label>
+        <input class="input" id="foodCalories" type="number" placeholder="Calories" />
+      </div>
+    </div>
+
+    <button id="addFoodBtn" class="btn accent" type="button">＋ Add Food</button>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-label">Total</div>
+        <div class="stat-value"><span id="total">0</span> cal</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Progress</div>
+        <div class="stat-value" id="progressText">Set goal</div>
+      </div>
+    </div>
+
+    <div class="progress-bar" aria-label="Progress">
+      <div id="progress" class="progress-fill"></div>
+    </div>
+
+    <div class="section-title">Foods</div>
+    <ul id="foodList" class="list"></ul>
+  </section>
+
+  <!-- WEEKLY -->
+  <section id="weeklyView" class="card" style="display:none">
+    <div class="weekly-head">
+      <div>
+        <div class="weekly-title">📊 Weekly Analytics</div>
+        <div class="weekly-sub">Last 7 days</div>
+      </div>
+      <div class="weekly-total">
+        <div class="weekly-total-label">Total</div>
+        <div class="weekly-total-value"><span id="weeklyTotal">0</span> cal</div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <canvas id="weeklyChart" height="220"></canvas>
+    </div>
+
+    <ul id="weeklyList" class="list"></ul>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="settingsView" class="card" style="display:none">
+    <div class="weekly-title">⚙️ Settings</div>
+
+    <div class="setting">
+      <label class="label" for="defaultGoalInput">Default daily goal</label>
+      <input class="input" id="defaultGoalInput" type="number" placeholder="2000" />
+      <button id="saveDefaultGoalBtn" class="btn accent" type="button">Save Default Goal</button>
+    </div>
+
+    <div class="setting">
+      <button id="clearTodayBtn" class="btn danger" type="button">🗑️ Clear Today</button>
+      <button id="clearAllBtn" class="btn danger" type="button">💥 Clear All Data</button>
+    </div>
+
+    <div class="setting">
+      <button id="toggleThemeBtn" class="btn" type="button">🌗 Toggle Theme</button>
+    </div>
+  </section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>6Devlox • Calorie Tracker</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#7c3aed">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<!-- 🎬 ONBOARDING -->
+<div id="onboarding" class="onboarding hidden">
+
+  <div class="onboard-card">
+
+    <!-- STEP 1 -->
+    <div class="onboard-step active">
+      <h2>👋 Welcome to 6Devlox</h2>
+      <p>Your neon-powered calorie tracker.</p>
+      <button class="btn accent" onclick="nextOnboard()">Next</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="onboard-step">
+      <h2>🎯 Set Your Goal</h2>
+      <p>Choose a daily calorie target.</p>
+      <input id="onboardGoal" class="input" type="number" placeholder="2000">
+      <button class="btn accent" onclick="saveOnboardGoal()">Save & Next</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="onboard-step">
+      <h2>⚡ Quick Add</h2>
+      <p>Use one-tap buttons to log food instantly.</p>
+      <button class="btn accent" onclick="finishOnboarding()">Start Using App</button>
+    </div>
+
+    <button class="skip-btn" onclick="finishOnboarding()">Skip</button>
+
+  </div>
+</div>
+
+<body>
+
+<!-- INSTALL PROMPT -->
+<div id="installBanner" class="install-banner hidden">
+  <span>📱 Install 6Devlox App</span>
+  <button id="installBtn">Install</button>
+</div>
+
+<!-- Splash -->
+<div id="splash">
+  <div class="splash-logo">6</div>
+  <div class="splash-text">6Devlox</div>
+</div>
+
+<!-- Neon BG -->
+<div class="neon-bg">
+  <span class="orb purple"></span>
+  <span class="orb cyan"></span>
+  <span class="orb purple small"></span>
+</div>
+
+<div class="app">
+  <!-- (YOUR APP UI STAYS THE SAME AS BEFORE) -->
+  <!-- header, tabs, daily, weekly, settings -->
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
